@@ -36,5 +36,20 @@ CREATE TABLE t_contact
   surname NVARCHAR2(50) NOT NULL,
   first_name NVARCHAR2(50) NOT NULL,
   father_name NVARCHAR2(50),
-  phone NVARCHAR2(12) NOT NULL,
+  phone INT NOT NULL,
   CONSTRAINT fk_caterer FOREIGN KEY(ID_CATERER) REFERENCES T_CATERER(ID_CATERER) ON DELETE CASCADE);
+
+INSERT INTO t_contact(id_caterer, surname, first_name, father_name, phone)
+  VALUES (1, 'Глушков', 'Пётр', 'Дмитриевич', 83422100081);
+
+INSERT INTO t_contact(id_caterer, surname, first_name, father_name, phone)
+  VALUES (2, 'Петухов', 'Михаил', 'Александрович', 83428037384);
+
+INSERT INTO t_contact(id_caterer, surname, first_name, father_name, phone)
+  VALUES (3, 'Раскольников', 'Павел', 'Вячеславович', 83427512012);
+
+INSERT INTO t_contact(id_caterer, surname, first_name, father_name, phone)
+  VALUES (4, 'Бередников', 'Борис', 'Юрьевич', 83423505542);
+
+INSERT INTO t_contact(id_caterer, surname, first_name, father_name, phone)
+  VALUES (5, 'Ярош', 'Дмитрий', 'Анатольевич', 83429088469)
