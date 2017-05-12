@@ -47,10 +47,10 @@ SELECT section_name, surname, first_name, father_name FROM t_section, T_EMPLOYER
 SELECT section_name, surname, first_name, father_name, name_job FROM t_section, t_employer, t_job
   WHERE t_section.id_employer=t_employer.id_employer AND t_employer.id_job=t_job.id_job;
 
-SELECT name_caterer, material_name, volume, price, supply_date FROM t_caterer, t_supply, t_material, T_INPRICE
+SELECT name_caterer, material_name, volume, price, supply_date FROM t_caterer, t_supply, t_material
   WHERE t_caterer.id_caterer=t_supply.id_supply AND t_supply.id_material=t_material.id_material AND (supply_date BETWEEN '01.01.2016' AND '31.03.2016');
 
-SELECT name_caterer, material_name, volume, price, supply_date FROM t_caterer, t_supply, t_material, T_INPRICE
+SELECT name_caterer, material_name, volume, price, supply_date FROM t_caterer, t_supply, t_material
   WHERE t_caterer.id_caterer=t_supply.id_supply AND t_supply.id_material=t_material.id_material AND (supply_date BETWEEN '01.01.2016' AND '31.03.2016') AND dejureaddr LIKE '%Пермь%';
 
 SELECT material_name, store_name, volume FROM T_MATERIAL, T_STORE, T_SURPLUS
@@ -59,13 +59,11 @@ SELECT material_name, store_name, volume FROM T_MATERIAL, T_STORE, T_SURPLUS
 SELECT name_caterer, material_name, volume, price, supply_date
   FROM t_caterer JOIN t_supply ON t_caterer.ID_CATERER = T_SUPPLY.ID_CATERER
   JOIN t_material ON t_supply.ID_MATERIAL = t_material.id_material
-  JOIN T_INPRICE ON t_material.id_material = T_INPRICE.ID_MATERIAL
   WHERE supply_date BETWEEN '01.01.2016' AND '31.03.2016';
 
 SELECT name_caterer, material_name, volume, price, supply_date
   FROM t_caterer LEFT JOIN t_supply ON t_caterer.ID_CATERER = T_SUPPLY.ID_CATERER
   JOIN t_material ON t_supply.ID_MATERIAL = t_material.id_material
-  JOIN T_INPRICE ON t_material.id_material = T_INPRICE.ID_MATERIAL
   WHERE supply_date BETWEEN '01.01.2016' AND '31.03.2016';
 
 SELECT material_name, store_name, volume
@@ -74,8 +72,10 @@ SELECT material_name, store_name, volume
 
 SELECT material_name, messure_name, price, price_date
   FROM t_material JOIN t_messure ON t_material.id_messure = t_messure.id_messure
-  JOIN t_inprice ON t_inprice.id_material = t_material.id_material AND price_date BETWEEN '01.07.2016' AND '30.09.2016';
+  JOIN T_INPRICE ti ON T_MATERIAL.ID_MATERIAL = ti.ID_MATERIAL
+  WHERE price_date BETWEEN '01.07.2016' AND '30.09.2016';
 
 SELECT material_name, messure_name, price, price_date
   FROM t_material JOIN t_messure ON t_material.id_messure = t_messure.id_messure
-  LEFT JOIN t_inprice ON t_inprice.id_material = t_material.id_material AND (price_date between '01.07.2016' AND '30.09.2016')
+  LEFT JOIN t_inprice ti ON T_MATERIAL.ID_MATERIAL = ti.ID_MATERIAL
+  WHERE (price_date between '01.07.2016' AND '30.09.2016')

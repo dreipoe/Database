@@ -17,8 +17,8 @@ SELECT name_caterer, material_name, sum(volume)
   GROUP BY name_caterer, MATERIAL_NAME
   ORDER BY NAME_CATERER, MATERIAL_NAME;
 
-SELECT material_name, avg(volume)
-  FROM t_supply JOIN T_MATERIAL ON T_MATERIAL.ID_MATERIAL=T_SUPPLY.ID_MATERIAL
+SELECT material_name, avg(volume*price) FROM t_supply
+  JOIN T_MATERIAL ON T_MATERIAL.ID_MATERIAL = T_SUPPLY.ID_MATERIAL
   WHERE supply_date BETWEEN '01.01.2016' AND '31.12.2016'
   GROUP BY MATERIAL_NAME
   ORDER BY MATERIAL_NAME;
@@ -29,12 +29,26 @@ SELECT material_name, count(volume)
   GROUP BY MATERIAL_NAME
   ORDER BY MATERIAL_NAME;
 
-SELECT material_name, avg(t_supply.volume*T_INPRICE.PRICE), sum(T_SURPLUS.VOLUME)
-  FROM t_material JOIN t_supply ON T_MATERIAL.ID_MATERIAL = T_SUPPLY.ID_MATERIAL
-  JOIN t_surplus ON T_MATERIAL.ID_MATERIAL = T_SURPLUS.ID_MATERIAL
-  WHERE supply_date BETWEEN '01.01.2016' AND '31.12.2016' AND price_date BETWEEN '01.01.2016' AND '31.12.2016'
+SELECT material_name, avg(tsy.volume*tsy.PRICE), sum(tss.VOLUME) FROM t_material
+  JOIN t_supply tsy ON T_MATERIAL.ID_MATERIAL = tsy.ID_MATERIAL
+  JOIN t_surplus tss ON T_MATERIAL.ID_MATERIAL = tss.ID_MATERIAL
+  WHERE (supply_date BETWEEN '01.01.2016' AND '31.12.2016')
   GROUP BY material_name;
 
-SELECT material_name, price
-  FROM T_MATERIAL JOIN T_INPRICE ON T_MATERIAL.ID_MATERIAL = T_INPRICE.ID_MATERIAL
-  WHERE price_date=max(PRICE_DATE);
+SELECT material_name, price FROM T_MATERIAL tm
+  JOIN T_INPRICE ON tm.ID_MATERIAL = tm.ID_MATERIAL;
+
+SELECT store_name FROM t_store tse LEFT JOIN T_SURPLUS tss ON tse.ID_STORE = tss.ID_STORE
+  GROUP BY store_name HAVING sum(volume)=0;
+
+SELECT name_caterer FROM t_caterer tc
+  JOIN t_supply tsy ON tc.ID_CATERER = tsy.ID_CATERER
+  JOIN t_material tm ON tm.ID_MATERIAL = tsy.ID_MATERIAL
+  WHERE supply_date BETWEEN '01.01.2016' AND '31.12.2016'
+  GROUP BY name_caterer HAVING sum(volume*price)<=1000;
+
+SELECT name_caterer FROM t_caterer tc
+  JOIN t_supply tsy ON tc.ID_CATERER = tsy.ID_CATERER
+  JOIN t_material tm ON tm.ID_MATERIAL = tsy.ID_MATERIAL
+  WHERE (supply_date BETWEEN '01.01.2016' AND '31.12.2016')
+  GROUP BY name_caterer HAVING
