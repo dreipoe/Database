@@ -1,9 +1,6 @@
-п»їALTER TABLE T_GROUP ADD id_parent INT;
-
+ALTER TABLE T_GROUP ADD id_parent INT;
 UPDATE T_GROUP SET id_parent = 1 WHERE id_group=2;
-
 UPDATE T_GROUP SET id_parent = 3 WHERE id_group BETWEEN 4 AND 5;
-
 SELECT e1.name_group, e2.name_group FROM T_GROUP e1 LEFT JOIN t_group e2 ON e1.ID_parent = e2.ID_group;
 
 CREATE TABLE t_ex
@@ -21,13 +18,13 @@ CREATE SEQUENCE seq_ex
   INCREMENT BY 1;
 
 INSERT INTO t_ex(id_employer, id_job, surname, FIRST_NAME, FATHER_NAME, BIRTHDAY)
-  VALUES (seq_ex.NEXTVAL, 1, 'РЎРёРґРѕСЂРѕРІ', 'РўРµРѕРґРѕСЂ', 'Р’Р°СЃРёР»СЊРµРІРёС‡', '09.06.1957');
+  VALUES (seq_ex.NEXTVAL, 1, 'Сидоров', 'Теодор', 'Васильевич', '09.06.1957');
 
 INSERT INTO t_ex(id_employer, id_job, surname, FIRST_NAME, FATHER_NAME, BIRTHDAY, ID_MANAGER)
-  VALUES (seq_ex.NEXTVAL, 3, 'Р§РµСЂРЅС‹С…', 'РђРЅРґСЂРµР№', 'РЇСЂРѕСЃР»Р°РІРѕРІРёС‡', '19.02.1960', 1);
+  VALUES (seq_ex.NEXTVAL, 3, 'Черных', 'Андрей', 'Ярославович', '19.02.1960', 1);
 
 INSERT INTO t_ex(id_employer, id_job, surname, FIRST_NAME, FATHER_NAME, BIRTHDAY, ID_MANAGER)
-  VALUES (seq_ex.NEXTVAL, 5, 'РљРѕС€РєРёРЅ', 'РЎРµРјС‘РЅ', 'Р”Р°РЅРёРёР»РѕРІРёС‡', '03.04.1997', 1);
+  VALUES (seq_ex.NEXTVAL, 5, 'Кошкин', 'Семён', 'Даниилович', '03.04.1997', 1);
 
 ALTER TABLE t_ex ADD dismissed DATE;
 
@@ -40,16 +37,16 @@ CREATE TABLE t_contact
   CONSTRAINT fk_caterer FOREIGN KEY(ID_CATERER) REFERENCES T_CATERER(ID_CATERER) ON DELETE CASCADE);
 
 INSERT INTO t_contact(id_caterer, surname, first_name, father_name, phone)
-  VALUES (1, 'Р“Р»СѓС€РєРѕРІ', 'РџС‘С‚СЂ', 'Р”РјРёС‚СЂРёРµРІРёС‡', 83422100081);
+  VALUES (1, 'Глушков', 'Пётр', 'Дмитриевич', 83422100081);
 
 INSERT INTO t_contact(id_caterer, surname, first_name, father_name, phone)
-  VALUES (2, 'РџРµС‚СѓС…РѕРІ', 'РњРёС…Р°РёР»', 'РђР»РµРєСЃР°РЅРґСЂРѕРІРёС‡', 83428037384);
+  VALUES (2, 'Петухов', 'Михаил', 'Александрович', 83428037384);
 
 INSERT INTO t_contact(id_caterer, surname, first_name, father_name, phone)
-  VALUES (3, 'Р Р°СЃРєРѕР»СЊРЅРёРєРѕРІ', 'РџР°РІРµР»', 'Р’СЏС‡РµСЃР»Р°РІРѕРІРёС‡', 83427512012);
+  VALUES (3, 'Раскольников', 'Павел', 'Вячеславович', 83427512012);
 
 INSERT INTO t_contact(id_caterer, surname, first_name, father_name, phone)
-  VALUES (4, 'Р‘РµСЂРµРґРЅРёРєРѕРІ', 'Р‘РѕСЂРёСЃ', 'Р®СЂСЊРµРІРёС‡', 83423505542);
+  VALUES (4, 'Бередников', 'Борис', 'Юрьевич', 83423505542);
 
 INSERT INTO t_contact(id_caterer, surname, first_name, father_name, phone)
-  VALUES (5, 'РЇСЂРѕС€', 'Р”РјРёС‚СЂРёР№', 'РђРЅР°С‚РѕР»СЊРµРІРёС‡', 83429088469)
+  VALUES (5, 'Ярош', 'Дмитрий', 'Анатольевич', 83429088469)

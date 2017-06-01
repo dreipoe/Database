@@ -1,0 +1,128 @@
+Список таблиц БД:
+
+t_readers
+	* id_reader
+	* surname
+	* first_name
+	* patronym
+
+t_students
+	* id_reader
+	* id_group
+
+t_group
+	* id_group
+	* name_group
+	* course
+	* id_fact
+
+t_fact
+	* id_fact
+	* name_fact
+
+t_lectors
+	* id_reader
+	* id_chair
+	* id_rank
+	* id_level
+
+t_chair
+	* id_chair
+	* name_chair
+
+t_level
+	* id_level
+	* name_level
+
+t_rank
+	* id_rank
+	* name_rank
+
+t_entries
+	* id_reader
+	* id_point
+	* year
+
+t_supply
+	* id_supply
+	* id_bookname
+	* volume
+	* id_point
+
+t_booknames	
+	* id_bookname
+	* id_type
+	* bookname
+	* autor
+	* release_year
+
+t_type
+	* id_type
+	* name_type
+
+t_bans
+	* id_ban
+	* start_ban
+	* end_ban
+	* id_reader
+	* id_reason
+
+t_reasons
+	* id_reason
+	* name_reason
+
+t_points
+	* id_point
+	* name_point
+
+t_rooms
+	* id_point
+	* max_volume
+
+t_abonent
+	* id_point
+
+t_issue
+	* id_issue
+	* id_reader
+	* id_supply
+	* date_issue
+	* date_deliver
+	* lost_q
+
+Список запросов:
+	1. a) SELECT count(id_chair) FROM t_lectors
+	   b) SELECT count(id_group) FROM t_students
+	   c) SELECT count(course) FROM t_students JOIN t_group ON t_students.id_group = t_group.id_group
+	   d) SELECT count(id_fact) FROM t_students
+		JOIN t_group ON t_students.id_group = t_group.id_group
+		JOIN t_fact ON t_group.id_fact = t_fact.id_fact
+
+	2. a) SELECT surname, name, patronym FROM t_issue JOIN t_readers ON t_issue.id_reader = t_readers.id_reader
+		WHERE sysdate - date_deliver >= 10d
+	   b) SELECT surname, name, patronym FROM t_issue
+		JOIN t_readers ON t_issue.id_reader = t_readers.id_reader
+		JOIN t_lectors ON t_lectors.id_reader = t_readers.id_reader
+		JOIN t_chair ON t_lectors.id_chair = t_chair.id_chair
+		WHERE sysdate - date_deliver >= 10d AND name_chair = [name_chair]
+	   c) SELECT surname, name, patronym FROM t_issue
+		JOIN t_readers ON t_issue.id_reader = t_readers.id_reader
+		JOIN t_students ON t_students.id_reader = t_readers.id_reader
+		JOIN t_group ON t_readers.id_group = t_chair.id_group AND 
+		WHERE sysdate - date_deliver >= 10d AND name_group = [name_group]
+	   d) SELECT surname, name, patronym FROM t_issue
+		JOIN t_readers ON t_issue.id_reader = t_readers.id_reader
+		JOIN t_students ON t_students.id_reader = t_readers.id_reader
+		JOIN t_group ON t_readers.id_group = t_chair.id_group
+		WHERE sysdate - date_deliver >= 10d AND course = [course]
+	   e) SELECT surname, name, patronym FROM t_issue
+		JOIN t_readers ON t_issue.id_reader = t_readers.id_reader
+		JOIN t_students ON t_students.id_reader = t_readers.id_reader
+		JOIN t_group ON t_readers.id_group = t_chair.id_group
+		JOIN t_fact ON t_fact.id_group = t_group.id_group
+		WHERE sysdate - date_deliver >= 10d AND name_fact = [name_fact]
+
+	3. a) SELECT bookname FROM t_bookname
+		JOIN t_books ON t_books.id_bookname = t_bookname.id_bookname
+		JOIN t_issues ON t_books.id_book = t_issues.id_book
+		GROUP BY 
