@@ -45,7 +45,16 @@ CREATE VIEW v_store (store_name, material_name, messure_name, summ)
     JOIN T_SURPLUS ts1 ON ts.ID_STORE = ts1.ID_STORE
     JOIN T_MATERIAL tm ON ts1.ID_MATERIAL = tm.ID_MATERIAL
     JOIN T_MESSURE tm1 ON tm.ID_MESSURE = tm1.ID_MESSURE
+    JOIN T_DELIVER td ON ts.ID_STORE = td.ID_STORE
+    WHERE deliver_date BETWEEN '01.01.2016' AND '31.12.2016'
     GROUP BY store_name, material_name, messure_name;
 
 SELECT * FROM v_store;
+
+CREATE VIEW v_price (material, outprice, inprice, differ) AS
+  SELECT material_name, SUM(volume*ts.price), SUM(volume*ti.price), SUM(volume*ti.price)-SUM(volume*ts.price) FROM T_SUPPLY ts
+    JOIN T_MATERIAL tm ON ts.ID_MATERIAL = tm.ID_MATERIAL
+    JOIN T_INPRICE ti ON tm.ID_MATERIAL = ti.ID_MATERIAL
+    WHERE ts.SUPPLY_DATE >= ti.PRICE_DATE
+    GROUP BY tm.MATERIAL_NAME;
 

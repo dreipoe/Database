@@ -133,4 +133,3 @@ SELECT name_caterer FROM t_caterer tc
   JOIN t_supply tsy ON tc.ID_CATERER = tsy.ID_CATERER
   JOIN t_material tm ON tm.ID_MATERIAL = tsy.ID_MATERIAL
   WHERE (supply_date BETWEEN '01.01.2016' AND '31.12.2016')
-  GROUP BY name_caterer HAVING
